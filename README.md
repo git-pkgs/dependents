@@ -38,7 +38,7 @@ ranked := dependents.Rank(kept, 10, nil)
 
 `DefaultScore` favors source references and tests after checkout analysis. Callers can pass another `ScoreFunc` to `Rank`, so security exposure and contract-test selection can use different policies.
 
-`Analyze` accepts any `Checkout`. `CloneCheckout` uses a direct checkout and supports full history for Hyrum, while `CacheCheckout` copies from a persistent `git-pkgs/clone` cache for Scrutineer. A caller that supplies `Workdir` or sets `Keep` receives the checkout path on each analyzed candidate for follow-up work.
+`Analyze` accepts any `Checkout`. `CloneCheckout` uses a direct checkout and supports full history for Hyrum, while `CacheCheckout` copies from a persistent `git-pkgs/clone` cache for Scrutineer. A caller that supplies `Workdir` or sets `Keep` receives the checkout path on each analyzed candidate for follow-up work. Set `DetectNativeExtensions` to record native-extension toolchains and their build commands, including Maturin, napi-rs, Neon, rb-sys, Rustler, and setuptools-rust.
 
 After analysis, `FilterOptions.RequireTests` and `RequireImports` reproduce the contract-test eligibility used by downstream. Scrutineer can require upstream references without excluding repositories that have no conventional test files.
 

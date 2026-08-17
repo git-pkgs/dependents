@@ -68,10 +68,17 @@ type Relationship struct {
 	Dependent PackageRef
 }
 
-// Analysis contains checkout-derived ranking signals.
+// NativeExtension describes a detected native-extension toolchain.
+type NativeExtension struct {
+	Name         string
+	BuildCommand string
+}
+
+// Analysis contains checkout-derived ranking signals and integrations.
 type Analysis struct {
-	TestFiles   int
-	ImportFiles int
+	TestFiles        int
+	ImportFiles      int
+	NativeExtensions []NativeExtension
 }
 
 // Candidate is one repository containing packages that depend on one or more
