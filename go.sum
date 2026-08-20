@@ -11,12 +11,12 @@ github.com/ecosyste-ms/ecosystems-go v0.4.0 h1:5A+zF+XWT8sYYYjlc2/tI1SmiDGzbHLyT
 github.com/ecosyste-ms/ecosystems-go v0.4.0/go.mod h1:FVswCrp3DQkur1HjVqfDF/gYrDSEmiFflntcB1G0DbA=
 github.com/git-pkgs/brief v0.9.4 h1:i6jqzavPAt5QNuA7JzTkenuNB25/CTPp77fRZvqZqVQ=
 github.com/git-pkgs/brief v0.9.4/go.mod h1:j7qjRMVHVAniVpZff4/Dbg79kIUDJRCuXZJ9H2xrgF4=
-github.com/git-pkgs/clone v0.2.1 h1:9Hl3UgMpGwYGlsUYR2KbMexISMTCDV5/1L7r1FFA/lw=
-github.com/git-pkgs/clone v0.2.1/go.mod h1:lgbobKgJ6XbPZPsbn4iK0fVskYpFr4stjKKCeG9RsRc=
+github.com/git-pkgs/clone v0.5.0 h1:0cYpr8PQpylqtvA9v1NBE9JXJeLLlrspJbvl2JYVLxU=
+github.com/git-pkgs/clone v0.5.0/go.mod h1:nixjE44maKRXbu/dEiunJmHApWgLYp0IR7J2yWaYHv8=
 github.com/git-pkgs/enrichment v0.6.5 h1:U0SPzWVGoK4R8TwojCTASBRTEV+QSs0IitdLmzI/g/k=
 github.com/git-pkgs/enrichment v0.6.5/go.mod h1:Vt2PLMvWPOio9DLyC8Gdhh1yxsHwcRcG+L2Kkc9+kak=
-github.com/git-pkgs/magic v0.1.0 h1:xLrqq7CMXB9g5bJnmJyKw17Rvlh0GFiEmO6e5RFsoeY=
-github.com/git-pkgs/magic v0.1.0/go.mod h1:3ndidt+yvFaI1M0aEkkzkOlFnLPkeVQASIUojazcxCI=
+github.com/git-pkgs/magic v0.2.0 h1:c7HqVxnP8c88EaVMH0/KraDFVTcmiXckRiSvNZEnvMQ=
+github.com/git-pkgs/magic v0.2.0/go.mod h1:3ndidt+yvFaI1M0aEkkzkOlFnLPkeVQASIUojazcxCI=
 github.com/git-pkgs/packageurl-go v0.3.1 h1:WM3RBABQZLaRBxgKyYughc3cVBE8KyQxbSC6Jt5ak7M=
 github.com/git-pkgs/packageurl-go v0.3.1/go.mod h1:rcIxiG37BlQLB6FZfgdj9Fm7yjhRQd3l+5o7J0QPAk4=
 github.com/git-pkgs/pom v0.1.5 h1:TGT8Az2OMxGWsXnSagtUMGzZm7Oax8HrSCteA+mi0qY=
