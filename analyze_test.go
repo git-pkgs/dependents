@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -71,7 +72,7 @@ func TestAnalyzeDirectorySkipsSymlinks(t *testing.T) {
 	if err != nil {
 		t.Fatalf("AnalyzeDirectory: %v", err)
 	}
-	if got != (Analysis{}) {
+	if !reflect.DeepEqual(got, Analysis{}) {
 		t.Errorf("analysis = %+v, want symlink excluded", got)
 	}
 }
@@ -105,7 +106,7 @@ func TestAnalyzeKeepsFailuresAndPersistentDirectories(t *testing.T) {
 		t.Fatalf("result = %+v", result)
 	}
 	good := result.Candidates[0]
-	if !good.Analyzed || good.Commit != "abc123" || good.Analysis != (Analysis{TestFiles: 1, ImportFiles: 1}) {
+	if !good.Analyzed || good.Commit != "abc123" || !reflect.DeepEqual(good.Analysis, Analysis{TestFiles: 1, ImportFiles: 1}) {
 		t.Errorf("good candidate = %+v", good)
 	}
 	if good.Directory == "" {
@@ -122,6 +123,53 @@ func TestAnalyzeKeepsFailuresAndPersistentDirectories(t *testing.T) {
 	}
 	if candidates[0].Analyzed || candidates[0].Directory != "" {
 		t.Error("Analyze modified its input")
+	}
+}
+
+func TestAnalyzeDetectsNativeExtensions(t *testing.T) {
+	checkout := CheckoutFunc(func(_ context.Context, _ string, destination string) (string, error) {
+		writeTree(t, destination, map[string]string{
+			"Cargo.toml": `[package]
+name = "native-package"
+version = "0.1.0"
+
+[dependencies]
+rb-sys = "0.9"
+`,
+			"Gemfile": `source "https://rubygems.org"
+gem "rb_sys"
+`,
+			"pyproject.toml": `[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "native-package"
+version = "0.1.0"
+
+[tool.maturin]
+bindings = "pyo3"
+`,
+		})
+		return "abc123", nil
+	})
+
+	result, err := Analyze(context.Background(), []Candidate{{Repository: "https://example.com/native"}}, AnalyzeOptions{
+		Checkout:               checkout,
+		DetectNativeExtensions: true,
+	})
+	if err != nil {
+		t.Fatalf("Analyze: %v", err)
+	}
+	if len(result.Failures) != 0 {
+		t.Fatalf("failures = %+v", result.Failures)
+	}
+	want := []NativeExtension{
+		{Name: "Maturin", BuildCommand: "maturin develop"},
+		{Name: "rb-sys", BuildCommand: "bundle exec rake compile"},
+	}
+	if got := result.Candidates[0].Analysis.NativeExtensions; !reflect.DeepEqual(got, want) {
+		t.Errorf("native extensions = %+v, want %+v", got, want)
 	}
 }
 

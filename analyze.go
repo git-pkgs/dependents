@@ -9,10 +9,12 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 
 	"github.com/git-pkgs/brief"
+	"github.com/git-pkgs/brief/detect"
 	"github.com/git-pkgs/brief/kb"
 )
 
@@ -23,10 +25,11 @@ const (
 
 // AnalyzeOptions controls checkout analysis.
 type AnalyzeOptions struct {
-	Upstreams []string
-	Workdir   string
-	Checkout  Checkout
-	Keep      bool
+	Upstreams              []string
+	Workdir                string
+	Checkout               Checkout
+	Keep                   bool
+	DetectNativeExtensions bool
 }
 
 // AnalysisFailure records one candidate that could not be checked out or
@@ -84,6 +87,13 @@ func Analyze(ctx context.Context, candidates []Candidate, opts AnalyzeOptions) (
 		if err != nil {
 			result.Failures = append(result.Failures, AnalysisFailure{Repository: candidate.Repository, Err: err})
 			continue
+		}
+		if opts.DetectNativeExtensions {
+			analysis.NativeExtensions, err = detectNativeExtensions(destination)
+			if err != nil {
+				result.Failures = append(result.Failures, AnalysisFailure{Repository: candidate.Repository, Err: err})
+				continue
+			}
 		}
 		candidate.Analysis = analysis
 		candidate.Analyzed = true
@@ -150,9 +160,13 @@ func candidateDirectory(repository string) string {
 	return hex.EncodeToString(sum[:])
 }
 
+var loadKnowledge = sync.OnceValues(func() (*kb.KnowledgeBase, error) {
+	return kb.Load(brief.KnowledgeFS)
+})
+
 var testDirs = sync.OnceValue(func() map[string]bool {
-	dirs := map[string]bool{}
-	knowledge, err := kb.Load(brief.KnowledgeFS)
+	dirs := make(map[string]bool)
+	knowledge, err := loadKnowledge()
 	if err != nil {
 		return dirs
 	}
@@ -161,6 +175,31 @@ var testDirs = sync.OnceValue(func() map[string]bool {
 	}
 	return dirs
 })
+
+func detectNativeExtensions(root string) ([]NativeExtension, error) {
+	knowledge, err := loadKnowledge()
+	if err != nil {
+		return nil, err
+	}
+	report, err := detect.New(knowledge, root).Run()
+	if err != nil {
+		return nil, err
+	}
+
+	detections := report.Tools["native_extension"]
+	extensions := make([]NativeExtension, 0, len(detections))
+	for _, detection := range detections {
+		extension := NativeExtension{Name: detection.Name}
+		if detection.Command != nil {
+			extension.BuildCommand = detection.Command.Run
+		}
+		extensions = append(extensions, extension)
+	}
+	sort.Slice(extensions, func(i, j int) bool {
+		return extensions[i].Name < extensions[j].Name
+	})
+	return extensions, nil
+}
 
 func isTestFile(base string) bool {
 	stem, extension, ok := strings.Cut(base, ".")
