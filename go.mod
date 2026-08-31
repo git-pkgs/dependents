@@ -2,6 +2,8 @@ module github.com/git-pkgs/dependents
 
 go 1.26
 
+toolchain go1.26.7
+
 require (
 	github.com/git-pkgs/brief v0.12.1
 	github.com/git-pkgs/clone v0.7.1
