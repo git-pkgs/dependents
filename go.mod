@@ -6,7 +6,7 @@ toolchain go1.26.7
 
 require (
 	github.com/git-pkgs/brief v0.13.0
-	github.com/git-pkgs/clone v0.7.2
+	github.com/git-pkgs/clone v0.7.3
 	github.com/git-pkgs/enrichment v0.7.1
 )
 
