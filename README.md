@@ -44,4 +44,4 @@ After analysis, `FilterOptions.RequireTests` and `RequireImports` reproduce the 
 
 ## License
 
-MIT
+[MIT](LICENSE).
