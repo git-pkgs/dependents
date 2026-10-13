@@ -6,7 +6,7 @@ toolchain go1.26.7
 
 require (
 	github.com/git-pkgs/brief v0.13.0
-	github.com/git-pkgs/clone v0.7.4
+	github.com/git-pkgs/clone v0.7.5
 	github.com/git-pkgs/enrichment v0.7.2
 )
 
@@ -17,7 +17,7 @@ require (
 	github.com/bmatcuk/doublestar/v4 v4.10.0 // indirect
 	github.com/ecosyste-ms/ecosystems-go v0.5.0 // indirect
 	github.com/git-pkgs/licensecheck v0.4.1 // indirect
-	github.com/git-pkgs/magic v0.3.1 // indirect
+	github.com/git-pkgs/magic v0.4.0 // indirect
 	github.com/git-pkgs/manifests v0.12.0 // indirect
 	github.com/git-pkgs/pom v0.1.7 // indirect
 	github.com/git-pkgs/purl v0.1.20 // indirect
