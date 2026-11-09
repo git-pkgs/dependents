@@ -7,7 +7,7 @@ toolchain go1.26.7
 require (
 	github.com/git-pkgs/brief v0.14.2
 	github.com/git-pkgs/clone v0.7.5
-	github.com/git-pkgs/enrichment v0.7.4
+	github.com/git-pkgs/enrichment v0.7.5
 )
 
 require (
@@ -23,7 +23,7 @@ require (
 	github.com/git-pkgs/magic v0.5.0 // indirect
 	github.com/git-pkgs/manifests v0.12.3 // indirect
 	github.com/git-pkgs/pom v0.1.8 // indirect
-	github.com/git-pkgs/purl v0.1.21 // indirect
+	github.com/git-pkgs/purl v0.1.23 // indirect
 	github.com/git-pkgs/registries v0.11.0 // indirect
 	github.com/git-pkgs/roles v0.1.3 // indirect
 	github.com/git-pkgs/spdx v0.3.3 // indirect
